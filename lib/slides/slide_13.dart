@@ -409,10 +409,10 @@ class _PhotoColumn extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(14.5),
-                    child: Image.asset('assets/images/44.png')
+                    child: Image.asset(
+                      'assets/images/44.png',
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        // Placeholder vizual dacă imaginea nu e găsită
                         return Container(
                           decoration: BoxDecoration(
                             color: const Color(0xFF90D8FF).withOpacity(0.05),
@@ -422,15 +422,19 @@ class _PhotoColumn extends StatelessWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.image_outlined,
-                                    color: const Color(0xFF90D8FF).withOpacity(0.4),
-                                    size: 48),
+                                Icon(
+                                  Icons.image_outlined,
+                                  color: const Color(0xFF90D8FF).withOpacity(0.4),
+                                  size: 48,
+                                ),
                                 const SizedBox(height: 10),
-                                Text('images/44.png',
-                                    style: TextStyle(
-                                      color: const Color(0xFF90D8FF).withOpacity(0.4),
-                                      fontSize: 12,
-                                    )),
+                                Text(
+                                  'assets/images/44.png',
+                                  style: TextStyle(
+                                    color: const Color(0xFF90D8FF).withOpacity(0.4),
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -439,7 +443,7 @@ class _PhotoColumn extends StatelessWidget {
                     ),
                   ),
                 ),
-              ), // Expanded (imagine)
+              ),
 
               const SizedBox(width: 4),
               // ── ETICHETĂ DREAPTA ─────────────────────────────────────
@@ -474,11 +478,12 @@ class _UXPrinciple {
   final String label;
   final Color color;
   final String desc;
-  const _UXPrinciple(
-      {required this.icon,
-        required this.label,
-        required this.color,
-        required this.desc});
+  const _UXPrinciple({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.desc,
+  });
 }
 
 class _NavPattern {
@@ -486,11 +491,12 @@ class _NavPattern {
   final String desc;
   final IconData icon;
   final Color color;
-  const _NavPattern(
-      {required this.label,
-        required this.desc,
-        required this.icon,
-        required this.color});
+  const _NavPattern({
+    required this.label,
+    required this.desc,
+    required this.icon,
+    required this.color,
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -529,8 +535,7 @@ class _UXCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: principle.color.withOpacity(0.04),
         borderRadius: BorderRadius.circular(10),
-        border:
-        Border.all(color: principle.color.withOpacity(0.22), width: 1),
+        border: Border.all(color: principle.color.withOpacity(0.22), width: 1),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
