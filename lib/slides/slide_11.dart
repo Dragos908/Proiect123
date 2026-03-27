@@ -26,7 +26,7 @@ class _Slide09State extends State<Slide09CerinteSRS>
   static bool _iframeRegistered = false;
   static const _viewType = 'google-doc-embed-09';
   static const _docUrl =
-      'https://docs.google.com/document/d/10wd4pPviAIScjt8ylVBZKsXU_iUAC5CLLvHWCW6RW7E/preview';
+      'https://docs.google.com/document/d/1kScLYTHOxFfbdXtaqU9dRAKXfs0OQ4qz/edit?usp=drivesdk&ouid=100565225547930972727&rtpof=true&sd=true';
 
   @override
   void initState() {
