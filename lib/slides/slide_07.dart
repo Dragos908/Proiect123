@@ -2,21 +2,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Slide 05 – Aplicații Web
-//
-// GIF SETUP:
-//   Pune GIF-ul în:  assets/slides/slide05/animation.gif
-//   În pubspec.yaml:
-//     flutter:
-//       assets:
-//         - assets/slides/slide05/
-//
-// ANIMAȚII FUNDAL:
-//   1) Circuit board cu trace-uri și semnale călătoare
-//   2) Scan beam orizontal (ping-pong) cu bracket-uri HUD
-// ─────────────────────────────────────────────────────────────────────────────
-
 class Slide05TipuriAppWeb extends StatefulWidget {
   const Slide05TipuriAppWeb({super.key});
   @override
@@ -28,8 +13,7 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
   late AnimationController _ctrl;
   final Color _accent = const Color(0xFF00F0FF);
 
-  // ── Schimbă cu calea GIF-ului tău ───────────────────────────────────────
-  static const String _gifPath = '01.gif';
+  static const String _gifPath = 'assets/01.gif'; // ✅ CORECTAT
 
   final List<String> _languages = [
     'JavaScript — standard absolut pentru frontend, folosit și în backend',
@@ -66,10 +50,7 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
         ),
       ),
       child: Stack(children: [
-        // ── 0: Dot grid static ──────────────────────────────────────────
         CustomPaint(painter: _DotGridPainter05(), size: Size.infinite),
-
-        // ── 1: Circuit board animat ──────────────────────────────────────
         AnimatedBuilder(
           animation: _ctrl,
           builder: (_, __) => CustomPaint(
@@ -77,8 +58,6 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
             size: Size.infinite,
           ),
         ),
-
-        // ── 2: Scan beam orizontal animat ────────────────────────────────
         AnimatedBuilder(
           animation: _ctrl,
           builder: (_, __) => CustomPaint(
@@ -86,8 +65,6 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
             size: Size.infinite,
           ),
         ),
-
-        // Glow radial fundal dreapta-sus
         Positioned(
           top: -100,
           right: -60,
@@ -103,8 +80,6 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
             ),
           ),
         ),
-
-        // Neon strip stânga
         Positioned(
           left: 0,
           top: 0,
@@ -129,14 +104,11 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
             ),
           ),
         ),
-
-        // ── Conținut principal ──────────────────────────────────────────
         Padding(
           padding: const EdgeInsets.fromLTRB(40, 44, 40, 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // HEADER
               Row(children: [
                 Container(width: 36, height: 3, color: _accent),
                 const SizedBox(width: 12),
@@ -158,14 +130,11 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
                       letterSpacing: 3,
                     )),
               ]).animate().fadeIn(duration: 500.ms),
-
               const SizedBox(height: 32),
-
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ── Stânga — 50% din spațiu ─────────────────────────
                     Expanded(
                       flex: 1,
                       child: Column(
@@ -270,10 +239,7 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
                         ],
                       ),
                     ),
-
                     const SizedBox(width: 40),
-
-                    // ── Dreapta — GIF panel 50% din spațiu ──────────────────────
                     Expanded(
                       flex: 1,
                       child: Container(
@@ -327,9 +293,6 @@ class _Slide05State extends State<Slide05TipuriAppWeb>
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Shared: GIF placeholder
-// ─────────────────────────────────────────────────────────────────────────────
 class _GifPlaceholder extends StatelessWidget {
   final Color accent;
   final String path;
@@ -370,10 +333,6 @@ class _GifPlaceholder extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Painters fundal Slide 05
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _DotGridPainter05 extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -390,7 +349,6 @@ class _DotGridPainter05 extends CustomPainter {
   bool shouldRepaint(_DotGridPainter05 _) => false;
 }
 
-/// ANIMAȚIE 1 — Circuit board: trace-uri + junction pads + semnale călătoare
 class _CircuitBoardPainter extends CustomPainter {
   final double t;
   final Color accent;
@@ -405,18 +363,15 @@ class _CircuitBoardPainter extends CustomPainter {
     final h = size.height;
     final tp = Paint()..style = PaintingStyle.stroke..strokeWidth = 0.8;
 
-    // Trace-uri orizontale
     for (final ry in _hRatios) {
       tp.color = accent.withOpacity(0.055);
       canvas.drawLine(Offset(0, h * ry), Offset(w, h * ry), tp);
     }
-    // Trace-uri verticale
     for (final rx in _vRatios) {
       tp.color = accent.withOpacity(0.055);
       canvas.drawLine(Offset(w * rx, 0), Offset(w * rx, h), tp);
     }
 
-    // Junction pads
     final jFill = Paint()
       ..color = accent.withOpacity(0.13)
       ..style = PaintingStyle.fill;
@@ -433,22 +388,18 @@ class _CircuitBoardPainter extends CustomPainter {
       }
     }
 
-    // Semnale pe orizontale
     for (int i = 0; i < _hRatios.length; i++) {
       final phase = (t * (0.55 + i * 0.05) + i * 0.125) % 1.0;
       final x = w * phase;
       final y = h * _hRatios[i];
-      // Glow
       canvas.drawCircle(
           Offset(x, y),
           5,
           Paint()
             ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6)
             ..color = accent.withOpacity(0.55));
-      // Core
       canvas.drawCircle(
           Offset(x, y), 1.8, Paint()..color = Colors.white.withOpacity(0.9));
-      // Coadă
       canvas.drawLine(
           Offset(x - 36, y),
           Offset(x, y),
@@ -460,7 +411,6 @@ class _CircuitBoardPainter extends CustomPainter {
             ).createShader(Rect.fromLTWH(x - 36, y - 1, 36, 2)));
     }
 
-    // Semnale pe verticale (din 2 în 2, mai lente)
     for (int i = 0; i < _vRatios.length; i += 2) {
       final phase = (t * (0.38 + i * 0.04) + i * 0.22) % 1.0;
       final x = w * _vRatios[i];
@@ -480,7 +430,6 @@ class _CircuitBoardPainter extends CustomPainter {
   bool shouldRepaint(_CircuitBoardPainter old) => old.t != t;
 }
 
-/// ANIMAȚIE 2 — Scan beam orizontal cu bracket-uri HUD
 class _ScanBeamPainter extends CustomPainter {
   final double t;
   final Color accent;
@@ -509,7 +458,6 @@ class _ScanBeamPainter extends CustomPainter {
             Rect.fromLTWH(0, y - beamH / 2, size.width, beamH)),
     );
 
-    // Linie centrală
     canvas.drawLine(
         Offset(0, y),
         Offset(size.width, y),
@@ -517,7 +465,6 @@ class _ScanBeamPainter extends CustomPainter {
           ..color = accent.withOpacity(0.20)
           ..strokeWidth = 1.0);
 
-    // Bracket-uri HUD
     final bp = Paint()
       ..color = accent.withOpacity(0.55)
       ..strokeWidth = 1.5
@@ -525,11 +472,9 @@ class _ScanBeamPainter extends CustomPainter {
     const bLen = 10.0;
     const bX = 24.0;
     const bIn = 10.0;
-    // Stânga
     canvas.drawLine(Offset(bX, y - bLen), Offset(bX, y + bLen), bp);
     canvas.drawLine(Offset(bX, y - bLen), Offset(bX + bIn, y - bLen), bp);
     canvas.drawLine(Offset(bX, y + bLen), Offset(bX + bIn, y + bLen), bp);
-    // Dreapta
     final rx = size.width - bX;
     canvas.drawLine(Offset(rx, y - bLen), Offset(rx, y + bLen), bp);
     canvas.drawLine(Offset(rx, y - bLen), Offset(rx - bIn, y - bLen), bp);
