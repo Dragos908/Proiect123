@@ -2,21 +2,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Slide 06 – Aplicații Mobile
-//
-// GIF SETUP:
-//   Pune GIF-ul în:  assets/slides/slide06/animation.gif
-//   În pubspec.yaml:
-//     flutter:
-//       assets:
-//         - assets/slides/slide06/
-//
-// ANIMAȚII FUNDAL:
-//   1) Hexagonal grid cu celule pulsatoare (wave)
-//   2) Radar sweep din colțul dreapta-sus cu blips
-// ─────────────────────────────────────────────────────────────────────────────
-
 class Slide06TipuriAppMobile extends StatefulWidget {
   const Slide06TipuriAppMobile({super.key});
   @override
@@ -28,8 +13,7 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
   late AnimationController _ctrl;
   final Color _accent = const Color(0xFF00FF88);
 
-  // ── Schimbă cu calea GIF-ului tău ───────────────────────────────────────
-  static const String _gifPath = '02.gif';
+  static const String _gifPath = 'assets/02.gif'; // ✅ CORECTAT
 
   final List<String> _languages = [
     'Swift — limbajul oficial Apple pentru aplicații iOS',
@@ -66,10 +50,7 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
         ),
       ),
       child: Stack(children: [
-        // ── 0: Dot grid static ──────────────────────────────────────────
         CustomPaint(painter: _DotGridPainter06(), size: Size.infinite),
-
-        // ── 1: Hex grid animat ───────────────────────────────────────────
         AnimatedBuilder(
           animation: _ctrl,
           builder: (_, __) => CustomPaint(
@@ -77,8 +58,6 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
             size: Size.infinite,
           ),
         ),
-
-        // ── 2: Radar sweep animat ────────────────────────────────────────
         AnimatedBuilder(
           animation: _ctrl,
           builder: (_, __) => CustomPaint(
@@ -86,8 +65,6 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
             size: Size.infinite,
           ),
         ),
-
-        // Glow radial fundal dreapta-sus
         Positioned(
           top: -100,
           right: -60,
@@ -103,8 +80,6 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
             ),
           ),
         ),
-
-        // Neon strip stânga
         Positioned(
           left: 0,
           top: 0,
@@ -129,14 +104,11 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
             ),
           ),
         ),
-
-        // ── Conținut principal ──────────────────────────────────────────
         Padding(
           padding: const EdgeInsets.fromLTRB(40, 44, 40, 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // HEADER
               Row(children: [
                 Container(width: 36, height: 3, color: _accent),
                 const SizedBox(width: 12),
@@ -158,14 +130,11 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
                       letterSpacing: 3,
                     )),
               ]).animate().fadeIn(duration: 500.ms),
-
               const SizedBox(height: 32),
-
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ── Stânga — 50% din spațiu ─────────────────────────
                     Expanded(
                       flex: 1,
                       child: Column(
@@ -173,8 +142,7 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.smartphone,
-                                  color: _accent, size: 32),
+                              Icon(Icons.smartphone, color: _accent, size: 32),
                               const SizedBox(width: 16),
                               Text(
                                 'APLICAȚII MOBILE',
@@ -270,10 +238,7 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
                         ],
                       ),
                     ),
-
                     const SizedBox(width: 40),
-
-                    // ── Dreapta — GIF panel 50% din spațiu ──────────────────────
                     Expanded(
                       flex: 1,
                       child: Container(
@@ -327,9 +292,6 @@ class _Slide06State extends State<Slide06TipuriAppMobile>
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GIF placeholder (identic cu cel din slide_05 — poți extrage într-un fișier comun)
-// ─────────────────────────────────────────────────────────────────────────────
 class _GifPlaceholder extends StatelessWidget {
   final Color accent;
   final String path;
@@ -370,10 +332,6 @@ class _GifPlaceholder extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Painters fundal Slide 06
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _DotGridPainter06 extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -390,7 +348,6 @@ class _DotGridPainter06 extends CustomPainter {
   bool shouldRepaint(_DotGridPainter06 _) => false;
 }
 
-/// ANIMAȚIE 1 — Hexagonal grid cu wave pulsator și celule glowing
 class _HexGridPainter extends CustomPainter {
   final double t;
   final Color accent;
@@ -399,7 +356,6 @@ class _HexGridPainter extends CustomPainter {
   Path _hexPath(Offset center, double r) {
     final path = Path();
     for (int i = 0; i < 6; i++) {
-      // Flat-top hexagon
       final angle = -math.pi / 6 + math.pi / 3 * i;
       final x = center.dx + r * math.cos(angle);
       final y = center.dy + r * math.sin(angle);
@@ -425,7 +381,6 @@ class _HexGridPainter extends CustomPainter {
         final cy = row * r * math.sqrt(3) + (col.isOdd ? rH : 0.0);
         final center = Offset(cx, cy);
 
-        // Wave frontală care se propagă
         final wavePhase =
             t * 2 * math.pi - (cx / size.width * 4 + cy / size.height * 2.5);
         final wave = (math.sin(wavePhase) + 1) / 2;
@@ -433,7 +388,6 @@ class _HexGridPainter extends CustomPainter {
         strokePaint.color = accent.withOpacity(0.04 + wave * 0.09);
         canvas.drawPath(_hexPath(center, r - 1.5), strokePaint);
 
-        // Celule speciale cu glow
         if ((col.abs() * 5 + row.abs() * 7) % 13 < 3) {
           final glow = (math.sin(
               t * 2 * math.pi * 1.4 + col * 0.9 + row * 1.2) +
@@ -452,12 +406,10 @@ class _HexGridPainter extends CustomPainter {
   bool shouldRepaint(_HexGridPainter old) => old.t != t;
 }
 
-/// ANIMAȚIE 2 — Radar sweep din colțul dreapta-sus cu inele și blips
 class _RadarSweepPainter extends CustomPainter {
   final double t;
   final Color accent;
 
-  // Blips fixe (seed constant → aceeași poziție la fiecare frame)
   static final _rng = math.Random(42);
   static final _blips = List.generate(10, (_) {
     return (
@@ -470,11 +422,9 @@ class _RadarSweepPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Originea radar: colțul dreapta-sus, ușor în exterior
     final origin = Offset(size.width * 1.08, -size.height * 0.08);
     final maxR = size.width * 1.25;
 
-    // Inele concentrice
     final ringP = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.7
@@ -483,10 +433,8 @@ class _RadarSweepPainter extends CustomPainter {
       canvas.drawCircle(origin, maxR * i / 5, ringP);
     }
 
-    // Unghiul sweepului (sens orar)
     final sweepAngle = t * 2 * math.pi + math.pi * 0.6;
 
-    // Trail-ul de dispariție (fan de linii cu fade)
     const trailSteps = 45;
     for (int i = 0; i < trailSteps; i++) {
       final frac = 1.0 - i / trailSteps.toDouble();
@@ -501,7 +449,6 @@ class _RadarSweepPainter extends CustomPainter {
       );
     }
 
-    // Linia principală (leading edge)
     canvas.drawLine(
       origin,
       Offset(origin.dx + maxR * math.cos(sweepAngle),
@@ -511,27 +458,20 @@ class _RadarSweepPainter extends CustomPainter {
         ..strokeWidth = 1.8,
     );
 
-    // Blips — puncte care apar după ce sweepul trece și se sting treptat
-    final blipPaint = Paint()..style = PaintingStyle.fill;
-    for (final blip in _blips) {
-      double diff = (sweepAngle - blip.angle) % (2 * math.pi);
-      if (diff < 0) diff += 2 * math.pi;
-      if (diff < 1.2) {
-        final fade = 1.0 - diff / 1.2;
-        final bR = maxR * blip.r;
-        final bx = origin.dx + bR * math.cos(blip.angle);
-        final by = origin.dy + bR * math.sin(blip.angle);
-
-        // Glow
+    for (final b in _blips) {
+      final angleDiff = ((sweepAngle % (2 * math.pi)) - b.angle + 2 * math.pi) % (2 * math.pi);
+      if (angleDiff < 0.3) {
+        final fade = 1.0 - angleDiff / 0.3;
+        final bx = origin.dx + maxR * b.r * math.cos(b.angle);
+        final by = origin.dy + maxR * b.r * math.sin(b.angle);
         canvas.drawCircle(
             Offset(bx, by),
-            6,
+            4,
             Paint()
-              ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5)
-              ..color = accent.withOpacity(fade * 0.45));
-        // Core
-        blipPaint.color = accent.withOpacity(fade * 0.9);
-        canvas.drawCircle(Offset(bx, by), 2.5, blipPaint);
+              ..color = accent.withOpacity(fade * 0.85)
+              ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
+        canvas.drawCircle(
+            Offset(bx, by), 2, Paint()..color = Colors.white.withOpacity(fade));
       }
     }
   }
