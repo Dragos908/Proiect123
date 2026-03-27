@@ -409,8 +409,7 @@ class _PhotoColumn extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(14.5),
-                    child: Image.asset(
-                      'images/44.png',
+                    child: Image.asset('assets/images/44.png')
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         // Placeholder vizual dacă imaginea nu e găsită
